@@ -1,0 +1,17 @@
+import requests
+from bs4 import BeautifulSoup 
+from urllib import parse
+from urllib.request import quote
+
+def get_request(addr):
+    headers = {'Accept':'application/xml, text/xml, */*; q=0.01'\
+               ,'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'\
+               ,'Referer':'https://maps.nlsc.gov.tw/'\
+               ,'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36'}
+    url = 'https://api.nlsc.gov.tw/MapSearch/QuerySearch'
+    param = {'word':quote(addr),'feedback':'XML'}
+    html = requests.post(url, headers= headers, data = param) #將此頁面的HTML GET下來
+    return BeautifulSoup(html.text,"html.parser")
+
+addr = '台北市萬華區中華路一段74號'
+get_request(addr)
